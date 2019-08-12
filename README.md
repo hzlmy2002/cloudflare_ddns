@@ -1,7 +1,8 @@
-#Usage
+# Usage
 1. You should first edit the "main.py" and input your own information(email,api_key,domain name,subdomain name).
 2. Install the requirements.
-```pip3 install requests
+```
+pip3 install requests
 ```
 
 3. Use cronjob to run this program automatically.
