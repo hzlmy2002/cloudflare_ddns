@@ -12,6 +12,7 @@ Copyright: Copyright (c) 2019
 Created on 2019-08-12  
 Author:Minyi_Lei
 Version 1.0
+Project Address:
 
 The following information can be found at https://dash.cloudflare.com/profile/api-tokens
 Remember,the api_key is the "Global API Key" 
@@ -26,6 +27,8 @@ class Cloudflare_Api():
 		self.api_key=api_key
 		self.domain_name=domain_name
 		self.subdomain_name=subdomain_name
+		self.should_update=False
+		self.is_first_time=False
 	def get_zone_id(self):
 		url="https://api.cloudflare.com/client/v4/zones"
 		payload={"name":self.domain_name}
