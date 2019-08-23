@@ -94,11 +94,14 @@ class Cloudflare_Api():
 			self.get_record_id()
 			self.update_record()
 			if self.is_update_successfully:
+				filename=self.subdomain_name+"_ip.txt"
+				with open(filename,"w") as file:
+					file.write(self.current_ip)
 				print("Update the record successfully!")
 			else:
 				print("Update failed")
 				print(self.feedback)
 		else:
-			print("ip does not change")
+			print("IP does not change")
 cf=Cloudflare_Api(email,api_key,domain_name,subdomain_name)
 cf.start()
