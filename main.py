@@ -75,7 +75,7 @@ class Cloudflare_Api():
 		self.feedback=response
 		self.is_update_successfully=response["success"]
 	def start(self):
-		self.get_current_ip("http://45.32.164.128/ip.php") #You can change this as long as the server's response contains your ip address
+		self.get_current_ip("https://ipv4.lookup.test-ipv6.com/ip/?callback=_jqjsp&asn=1&testdomain=test-ipv6.com&testname=test_asn4") #You can change this as long as the server's response contains your ip address
 		self.load()
 		if self.should_update or self.is_first_time:
 			self.get_zone_id()
