@@ -8,7 +8,7 @@ import os
 import re
 import json
 """
-Copyright: Copyright (c) 2019
+Copyright: Copyright (c) 2019 hzlmy2002
 Created on 2019-08-12  
 Author:Minyi_Lei
 Version 1.0
@@ -23,31 +23,24 @@ domain_name=""
 subdomain_name=""
 class Cloudflare_Api():
 	def __init__(self,email,api_key,domain_name,subdomain_name):
-		self.email=email
-		self.api_key=api_key
 		self.domain_name=domain_name
 		self.subdomain_name=subdomain_name
 		self.should_update=False
 		self.is_first_time=False
-	def get_zone_id(self):
-		url="https://api.cloudflare.com/client/v4/zones"
-		payload={"name":self.domain_name}
-		data={
+		self.auth_header={
 			"X-Auth-Email":email,
 			"X-Auth-Key":api_key,
 			"Content-Type":"application/json"
 		}
-		response=requests.get(url,params=payload,headers=data).json()
+	def get_zone_id(self):
+		url="https://api.cloudflare.com/client/v4/zones"
+		payload={"name":self.domain_name}
+		response=requests.get(url,params=payload,headers=self.auth_header).json()
 		self.zone_id=response["result"][0]["id"]
 	def get_record_id(self):
 		url="https://api.cloudflare.com/client/v4/zones/"+self.zone_id+"/dns_records"
 		payload={"name":subdomain_name}
-		data={
-			"X-Auth-Email":email,
-			"X-Auth-Key":api_key,
-			"Content-Type":"application/json"
-		}
-		response=requests.get(url,params=payload,headers=data).json()
+		response=requests.get(url,params=payload,headers=self.auth_header).json()
 		self.record_id=response["result"][0]["id"]
 	def load(self):
 		filename=self.subdomain_name+"_ip.txt"
@@ -72,18 +65,13 @@ class Cloudflare_Api():
 		self.current_ip=current_ip
 	def update_record(self):
 		url="https://api.cloudflare.com/client/v4/zones/"+self.zone_id+"/dns_records/"+self.record_id
-		header_data={
-			"X-Auth-Email":email,
-			"X-Auth-Key":api_key,
-			"Content-Type":"application/json"
-		}
 		data={
 			"type":"A",
 			"name":self.subdomain_name,
 			"content":self.current_ip
 		}
 		data=json.dumps(data)
-		response=requests.put(url,data=data,headers=header_data).json()
+		response=requests.put(url,data=data,headers=self.auth_header).json()
 		self.feedback=response
 		self.is_update_successfully=response["success"]
 	def start(self):
