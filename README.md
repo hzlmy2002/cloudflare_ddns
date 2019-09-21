@@ -7,7 +7,7 @@
 pip3 install requests
 ```
 
-4. Use cronjob to run this program automatically.
+4. Edit "main.py" and input your own information then using cronjob to run this program automatically.
 ```
 */5 * * * * /usr/bin/python3 /opt/cloudflare_ddns/main.py
 ```
