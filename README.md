@@ -1,7 +1,7 @@
 # Usage
 
 1. You should have one domain,and add a subdomain for this script.For example,if your domain name is "helloworld.com",your subdomain name might be "ddns.helloworld.com". 
-2. The most important thing is to get your cloudflare api key,it can be found at "https://dash.cloudflare.com/profile/api-tokens".The api_key is the "Global API Key".
+2. The most important thing is to get your cloudflare api key,it can be found at "https://dash.cloudflare.com/profile/api-tokens". The api_key is the "Global API Key".
 3. Install the requirements.
 ```
 pip3 install requests
