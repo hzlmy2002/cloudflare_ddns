@@ -7,7 +7,7 @@
 pip3 install requests
 ```
 
-4. Edit "main.py" and input your own information then using cronjob to run this program automatically.Please be reminded that your should first setup the environment variables(CF_Email,CF_Key,CF_Domain,CF_Host) so that this script can run properly.
+4. Edit "main.py" and input your own information then using cronjob to run this program automatically.Please be reminded that your should first setup the environment variables(CF_Email,CF_Key,CF_Domain,CF_Host) so that the script can run properly.
 ```
 #note:This sample only takes effect if you are using vixie-cron(Debian,Ubuntu).If you are using cronie(Arch,Redhat),please use "export xxx" instead.
 
