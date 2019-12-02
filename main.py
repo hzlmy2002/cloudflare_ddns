@@ -107,7 +107,7 @@ if __name__ =="__main__":
 		email=env_dict["CF_Email"]
 		api_key=env_dict["CF_Key"]
 		domain_name=env_dict["CF_Domain"]
-		if len(env_dict["CF_Host"]) == 0 :
+		if len(env_dict["CF_Host"]) == 0 or env_dict["CF_Host"] == "@":
 			subdomain_name=domain_name
 		else:
 			subdomain_name=env_dict["CF_Host"]+"."+domain_name
