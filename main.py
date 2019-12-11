@@ -49,7 +49,7 @@ class Cloudflare_Api():
 		self.zone_id=response["result"][0]["id"]
 	def get_record_id(self):
 		url="https://api.cloudflare.com/client/v4/zones/"+self.zone_id+"/dns_records"
-		payload={"name":subdomain_name}
+		payload={"name":self.subdomain_name}
 		response=requests.get(url,params=payload,headers=self.auth_header).json()
 		self.record_id=response["result"][0]["id"]
 	def load(self):
