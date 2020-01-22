@@ -98,7 +98,7 @@ class Cloudflare_Api():
 				print("Update the record successfully!")
 			else:
 				sys.stderr.write("Update failed! \n")
-				sys.stderr.write(self.feedback)
+				sys.stderr.write(json.dumps(self.feedback))
 		else:
 			print("IP does not change")
 if __name__ =="__main__":
