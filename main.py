@@ -5,7 +5,7 @@ import requests,os,re,json,sys
 Copyright: Copyright (c) 2019 hzlmy2002
 Created on 2019-12-02
 Author:Minyi_Lei
-Version 1.1
+Version 2.0
 Project Address:https://github.com/hzlmy2002/cloudflare_ddns
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -51,7 +51,11 @@ class Cloudflare_Api():
 		url="https://api.cloudflare.com/client/v4/zones/"+self.zone_id+"/dns_records"
 		payload={"name":self.subdomain_name}
 		response=requests.get(url,params=payload,headers=self.auth_header).json()
-		self.record_id=response["result"][0]["id"]
+		try:
+			self.record_id=response["result"][0]["id"]
+		except IndexError:
+			sys.stderr.write("subdomain does not exist,please try again!")
+			sys.exit(22)
 	def load(self):
 		filename=self.subdomain_name+"_ip.txt"
 		if os.path.exists(filename):
@@ -95,24 +99,31 @@ class Cloudflare_Api():
 				filename=self.subdomain_name+"_ip.txt"
 				with open(filename,"w") as file:
 					file.write(self.current_ip)
-				print("Update the record successfully!")
+				print("Update the record "+self.subdomain_name+" successfully!")
 			else:
 				sys.stderr.write("Update failed! \n")
 				sys.stderr.write(json.dumps(self.feedback))
 		else:
-			print("IP does not change")
+			print(self.subdomain_name+" IP does not change")
 if __name__ =="__main__":
 	env_dict=os.environ
 	try:
 		email=env_dict["CF_Email"]
 		api_key=env_dict["CF_Key"]
 		domain_name=env_dict["CF_Domain"]
-		if len(env_dict["CF_Host"]) == 0 or env_dict["CF_Host"] == "@":
-			subdomain_name=domain_name
-		else:
-			subdomain_name=env_dict["CF_Host"]+"."+domain_name
-	except Exception:
-		sys.stderr.write("Please check your env (CF_Email,CF_Key,CF_Domain,CF_Host) and try again.\n")
-		exit()
-	cf=Cloudflare_Api(email,api_key,domain_name,subdomain_name)
-	cf.start()
+		domain_hosts=env_dict["CF_Hosts"].split(",")
+		subdomains=[]
+		for i in domain_hosts:
+			if i == "@":
+				subdomains.append(domain_name)
+			else:
+				subdomains.append(i+"."+domain_name)
+	except Exception as err:
+		print(err)
+		sys.stderr.write("Please check your env (CF_Email,CF_Key,CF_Domain,CF_Hosts) and try again.\n")
+		sys.exit(23)
+	cf=[]
+	for i in subdomains:
+		cf.append(Cloudflare_Api(email,api_key,domain_name,i))
+	for i in cf:
+		i.start()
