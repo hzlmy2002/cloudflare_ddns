@@ -14,7 +14,7 @@ pip3 install requests
 CF_Email="xxx@gmail.com"
 CF_Key="adiauyicas4d5a465a46"
 CF_Domain="example.com"
-CF_Host="hostname"
+CF_Hosts="hostname1,hostname2"
 */5 * * * * /usr/bin/python3 /opt/cloudflare_ddns/main.py
 ```
 
